@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" >
+<head>
+    <title>Plex Requests!</title>
+    
+    <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        .jumbotron {
+            margin-top: 15px;
+            background-color: white;
+    </style>
+    </head>
+<body>
+    <div class="container">
+    <div class="jumbotron">
+    <h1>Plex Requests!</h1>
+       <p>Want to watch a movie but it's not currently on Plex?<br>
+           Use the search box below to do a quick OMDB search for a movie!</p>
+    <form name="myform" id="myform" action="" method="get" class="form-inline">
+        <div class="form-group">
+        <input type="search" id="search" class="form-control" placeholder="Movie title" required>
+        </div>
+        <div class="form-group">
+        <input type="submit" value="Search!" class="btn btn-primary">
+        </div>
+    </form>
+    
+    <div class="overview" id="overview"></div>
+
+    <form name="result" id="results" action="" method="get" class="form-group">
+    </form>
+    <div class="alert" role="alert" id="info"></div>
+    </div>
+    </div>
+    <script type="text/javascript">
+                document.getElementById("myform").onsubmit = function() {
+                    var o = "http://www.omdbapi.com/?s=";
+                    var s = document.getElementById("search").value;
+                    var u = o + s;
+                         (function() {   
+                         $.getJSON(u)
+                            .done(function(data) {
+                             try {
+                                 var len = data['Search'].length;
+                             }
+                             catch(err) {
+                                var info = '<p>Hmm we got no results...<a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">try again</a><p>';
+                                document.getElementById("info").setAttribute("class", "alert alert-warning");
+                                document.getElementById("info").innerHTML = info;
+                                 
+                                var list = document.getElementById("results");
+                                while (list.firstChild) {
+                                    list.removeChild(list.firstChild);
+                                }
+                                var mg = ""
+                                document.getElementById("overview").innerHTML = mg 
+                                return;
+                             }
+                                var mg = "<h3>Results from the OMDB:</h3>"
+                                document.getElementById("overview").innerHTML = mg;
+                             
+                                var list = document.getElementById("results");
+                                while (list.firstChild) {
+                                    list.removeChild(list.firstChild);
+                                }
+                                for (i = 0; i < data['Search'].length; i++) {
+                                    var t = data['Search'][i]['Title'];
+                                    var y = data['Search'][i]['Year'];
+                                    var ty = t + " (" + y + ")";
+                                    
+                                    var d = document.createElement("div");
+                                    d.setAttribute("class", "radio")
+                                    d.setAttribute("id", "for" + i);
+                                    document.getElementById("results").appendChild(d);
+                                    
+                                    var l = document.createElement("label");
+                                    l.setAttribute("for", "option" + i);
+                                    l.setAttribute("id", "foroption" + i);
+                                    document.getElementById("for" + i).appendChild(l);
+                                    
+                                    var n = document.createElement("input");
+                                    n.setAttribute("type", "radio");
+                                    n.setAttribute("value", ty);
+                                    n.setAttribute("id", "option" + i);
+                                    n.setAttribute("name", "movie");
+                                    n.setAttribute("class", "movie");
+                                    n.required = true;
+                                    document.getElementById("foroption" + i).appendChild(n);
+                                    
+                                    old_html = document.getElementById("foroption" + i).innerHTML;
+                                    document.getElementById("foroption" + i).innerHTML = old_html + ty;
+                                    
+                                    var info = '<h4>Not find what you were looking for? <a href="javascript:document.getElementById(\'search\').focus()" >Click here to search again!</a></h4>';
+                                    document.getElementById("info").setAttribute("class", "info");
+                                    document.getElementById("info").innerHTML = info;
+                                                                        
+                                }
+                             var s = document.createElement("input");
+                             s.setAttribute("type", "submit")
+                             s.setAttribute("value", "Request Movie!")
+                             s.setAttribute("class", "btn btn-primary");
+                             document.getElementById("results").appendChild(s);
+                             document.getElementById('overview').scrollIntoView({block: "end", behavior: "smooth"});
+                         })
+                            .fail(function() {
+                                var mg = '<p>Hmmm something went wrong with your search...<a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">try again in a few moments!</a></p>';
+                                document.getElementById("info").setAttribute("class", "alert alert-danger");
+                                document.getElementById("info").innerHTML = mg;
+                        });
+                        })();
+                return false;
+                }
+                
+                document.getElementById("results").onsubmit = function() {
+                    var movie = document.querySelector('input[name="movie"]:checked').value;
+                    PushBullet.APIKey = "abcdef12345";
+                    PushBullet.push("note", null, null, {title: "Movie Requested", body: movie});
+                    
+                    var mg = '<p>Movie was successfully requested! Want to <a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">search again?</a></p>'
+                    document.getElementById("info").setAttribute("class", "alert alert-success");
+                    document.getElementById("info").innerHTML = mg;
+                    
+                    var mg = ""
+                    document.getElementById("overview").innerHTML = mg;
+                    
+                    var list = document.getElementById("results");
+                    while (list.firstChild) {
+                            list.removeChild(list.firstChild);
+                    }
+                    return false;
+                }
+    </script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://alexschneider.github.io/pushbullet-js/pushbullet.min.js" type="text/javascript"></script>
+    <noscript><div class="container"><h3>No JavaScript Enabled?</h3><p>This web app is entirely dependent on JavaScript, please enable it! Instructions can be found <a href="http://www.activatejavascript.org/" target="_blank">here.</a></p></div>
+    </body>
+</html>
