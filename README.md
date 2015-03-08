@@ -5,4 +5,4 @@ Simply edit line 120 with your own PushBullet API key and you're done! When peop
 
 For a more automated process that will cross-check Plex content you already have amongst other things check out my other repo [https://github.com/lokenx/plexrequests](plexrequests).
 
-Sample can be seen here
+Sample can be seen [http://lokenx.github.io/plexrequests-js/](here!)
