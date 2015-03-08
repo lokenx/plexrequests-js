@@ -117,8 +117,6 @@
                 
                 document.getElementById("results").onsubmit = function() {
                     var movie = document.querySelector('input[name="movie"]:checked').value;
-                    PushBullet.APIKey = "abcdef12345";
-                    PushBullet.push("note", null, null, {title: "Movie Requested", body: movie});
                     
                     var mg = '<p>Movie was successfully requested! Want to <a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">search again?</a></p>'
                     document.getElementById("info").setAttribute("class", "alert alert-success");
