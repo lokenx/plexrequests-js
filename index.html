@@ -27,10 +27,11 @@
     </head>
 <body>
     <div class="container">
-    <div class="jumbotron">
-    <h1>Plex Requests!</h1>
-       <p>Want to watch a movie but it's not currently on Plex?<br>
+    <div class="row col-md-offset-3 col-md-7">
+    <a href="javascript:window.location.reload();"><h1>Plex Requests!</h1></a>
+       <p class="lead">Want to watch a movie but it's not currently on Plex?<br>
            Use the search box below to do a quick <a href="http://www.omdbapi.com/">OMDB</a> search for a movie!</p>
+           <br>
     <form name="myform" id="myform" action="" method="get" class="form-inline">
         <div class="form-group">
         <input type="search" id="search" class="form-control" placeholder="Movie title" required>
@@ -39,11 +40,11 @@
         <input type="submit" value="Search!" class="btn btn-primary">
         </div>
     </form>
-    
     <div class="overview" id="overview"></div>
-
     <form name="result" id="results" action="" method="get" class="form-group">
     </form>
+    </div>
+    <div class="row col-md-offset-3 col-sm-6">
     <div class="alert" role="alert" id="info"></div>
     </div>
     </div>
