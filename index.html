@@ -62,7 +62,7 @@
                                  var len = data['Search'].length;
                              }
                              catch(err) {
-                                var info = '<p>Hmm we got no results...<a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">try again</a><p>';
+                                var info = '<p>Hmm we got no results...<a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">try again!</a><p>';
                                 document.getElementById("info").setAttribute("class", "alert alert-warning");
                                 document.getElementById("info").innerHTML = info;
                                  
@@ -74,7 +74,7 @@
                                 document.getElementById("overview").innerHTML = mg 
                                 return;
                              }
-                                var mg = "<h3>Results from the OMDB:</h3>"
+                                var mg = "<br><h3>Results from the OMDB:</h3>"
                                 document.getElementById("overview").innerHTML = mg;
                              
                                 var list = document.getElementById("results");
@@ -108,7 +108,7 @@
                                     old_html = document.getElementById("foroption" + i).innerHTML;
                                     document.getElementById("foroption" + i).innerHTML = old_html + ty;
                                     
-                                    var info = '<h4>Not find what you were looking for? <a href="javascript:document.getElementById(\'search\').focus()" >Click here to search again!</a></h4>';
+                                    var info = '<p>Not find what you were looking for? <a href="javascript:document.getElementById(\'search\').focus()" >Click here to search again!</a></p>';
                                     document.getElementById("info").setAttribute("class", "info");
                                     document.getElementById("info").innerHTML = info;
                                                                         
