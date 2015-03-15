@@ -9,17 +9,29 @@
     
     <link rel="stylesheet" href="bootstrap.min.css">
     <style>
-        .jumbotron {
-            margin-top: 15px;
-            background-color: white;
+    @media (min-width: 768px) {
+        body {
+            padding-top: 60px;
+        }
+    }
+    h1 {
+        font-size: 3.5em;
+    }
+    p {
+        font-size: 1.2em;
+    }
+    #results {
+        padding-left: 15px;
+    }
     </style>
     </head>
 <body>
     <div class="container">
-    <div class="jumbotron">
-    <h1>Plex Requests!</h1>
-       <p>Want to watch a movie but it's not currently on Plex?<br>
-           Use the search box below to do a quick OMDB search for a movie!</p>
+    <div class="row col-md-offset-3 col-md-7">
+    <a href="javascript:window.location.reload();"><h1>Plex Requests!</h1></a>
+       <p class="lead">Want to watch a movie but it's not currently on Plex?<br>
+           Use the search box below to do a quick <a href="http://www.omdbapi.com/">OMDB</a> search for a movie!</p>
+           <br>
     <form name="myform" id="myform" action="" method="get" class="form-inline">
         <div class="form-group">
         <input type="search" id="search" class="form-control" placeholder="Movie title" required>
@@ -28,11 +40,11 @@
         <input type="submit" value="Search!" class="btn btn-primary">
         </div>
     </form>
-    
     <div class="overview" id="overview"></div>
-
     <form name="result" id="results" action="" method="get" class="form-group">
     </form>
+    </div>
+    <div class="row col-md-offset-3 col-sm-6">
     <div class="alert" role="alert" id="info"></div>
     </div>
     </div>
@@ -44,11 +56,13 @@
                          (function() {   
                          $.getJSON(u)
                             .done(function(data) {
+
+                            document.getElementById("search").blur();
                              try {
                                  var len = data['Search'].length;
                              }
                              catch(err) {
-                                var info = '<p>Hmm we got no results...<a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">try again</a><p>';
+                                var info = '<p>Hmm we got no results...<a href="javascript:document.getElementById(\'search\').focus()" class="alert-link">try again!</a><p>';
                                 document.getElementById("info").setAttribute("class", "alert alert-warning");
                                 document.getElementById("info").innerHTML = info;
                                  
@@ -60,7 +74,7 @@
                                 document.getElementById("overview").innerHTML = mg 
                                 return;
                              }
-                                var mg = "<h3>Results from the OMDB:</h3>"
+                                var mg = "<br><h3>Results from the OMDB:</h3>"
                                 document.getElementById("overview").innerHTML = mg;
                              
                                 var list = document.getElementById("results");
@@ -71,6 +85,7 @@
                                     var t = data['Search'][i]['Title'];
                                     var y = data['Search'][i]['Year'];
                                     var ty = t + " (" + y + ")";
+                                    ty = "<p>" + ty + "</p>"
                                     
                                     var d = document.createElement("div");
                                     d.setAttribute("class", "radio")
@@ -94,7 +109,7 @@
                                     old_html = document.getElementById("foroption" + i).innerHTML;
                                     document.getElementById("foroption" + i).innerHTML = old_html + ty;
                                     
-                                    var info = '<h4>Not find what you were looking for? <a href="javascript:document.getElementById(\'search\').focus()" >Click here to search again!</a></h4>';
+                                    var info = '<p>Not find what you were looking for? <a href="javascript:document.getElementById(\'search\').focus()" >Click here to search again!</a></p>';
                                     document.getElementById("info").setAttribute("class", "info");
                                     document.getElementById("info").innerHTML = info;
                                                                         
@@ -132,7 +147,7 @@
                     return false;
                 }
     </script>
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="https://alexschneider.github.io/pushbullet-js/pushbullet.min.js" type="text/javascript"></script>
     <noscript><div class="container"><h3>No JavaScript Enabled?</h3><p>This web app is entirely dependent on JavaScript, please enable it! Instructions can be found <a href="http://www.activatejavascript.org/" target="_blank">here.</a></p></div>
     </body>
